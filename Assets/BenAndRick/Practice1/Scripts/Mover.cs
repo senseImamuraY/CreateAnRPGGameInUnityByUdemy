@@ -5,22 +5,30 @@ using UnityEngine;
 public class Mover : MonoBehaviour
 {
   //Vector3 Pos = new Vector3(1, 0, 0);
+  [SerializeField] float moveSpeed = 1f;
   // Start is called before the first frame update
   void Start()
   {
-  // Translate‚ÍƒxƒNƒgƒ‹‚ð‘«‚·
-    //transform.Translate(1, 0, 0);
-  //this.transform.position = Pos;
-}
+    PrintInstruction();
+  }
 
   // Update is called once per frame
   void Update()
   {
-    float xValue = Input.GetAxis("Horizontal");
-    float zValue = Input.GetAxis("Vertical");
-    transform.Translate(xValue, 0, zValue);
+    MovePlayer();
   }
 
+  void PrintInstruction()
+  {
+    Debug.Log("Welcome to the game");
+  }
+
+  void MovePlayer()
+  {
+    float xValue = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
+    float zValue = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
+    transform.Translate(xValue, 0, zValue);
+  }
   private void FixedUpdate()
   {
 
