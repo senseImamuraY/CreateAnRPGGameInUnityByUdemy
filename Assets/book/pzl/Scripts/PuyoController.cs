@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum PuyoType
 {
+    // enum‚ğ“¯‚É”’l‚Æ‚µ‚Ä‚àˆµ‚¦‚é
     Blank = 0,
 
     Green = 1,
