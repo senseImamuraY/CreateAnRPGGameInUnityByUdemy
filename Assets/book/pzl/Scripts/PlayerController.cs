@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _puyoControllers[0].SetPuyoType(PuyoType.Green);
-        _puyoControllers[0].SetPuyoType(PuyoType.Red);
+        _puyoControllers[1].SetPuyoType(PuyoType.Red);
 
         _position = new Vector2Int(2, 12);
         _rotate = RotState.Up;
@@ -71,6 +71,29 @@ public class PlayerController : MonoBehaviour
 
         Vector2Int pos = _position;
 
+        switch (rot)
+        {
+            case RotState.Down:
+                if (!boardController.CanSettle(pos + Vector2Int.down) || 
+                    !boardController.CanSettle(pos + new Vector2Int(is_right ? 1 : -1, -1)))
+                {
+                    pos += Vector2Int.up;
+                }
+                break;
+            case RotState.Right:
+                if (!boardController.CanSettle(pos + Vector2Int.right)) pos += Vector2Int.left;
+                break;
+            case RotState.Left:
+                if (!boardController.CanSettle(pos + Vector2Int.left)) pos += Vector2Int.right;
+                break;
+            case RotState.Up:
+                break;
+            default:
+                Debug.Assert(false);
+                break;
+        }
+
+
         if (!CanMove(pos, rot)) return false;
 
         _rotate = rot;
@@ -80,6 +103,25 @@ public class PlayerController : MonoBehaviour
         _puyoControllers[1].SetPos(new Vector3((float)posChild.x, (float)posChild.y, 0.0f));
 
         return true;
+    }
+
+    void QuickDrop()
+    {
+        Vector2Int pos = _position;
+        do
+        {
+            pos += Vector2Int.down;
+        } while (CanMove(pos, _rotate));
+        pos -= Vector2Int.down;
+
+        _position = pos;
+
+        bool is_set0 = boardController.Settle(_position, (int)_puyoControllers[0].GetPuyoType());
+        Debug.Assert(is_set0);
+        bool is_set1 = boardController.Settle(CalcChildPuyoPos(_position, _rotate), (int)_puyoControllers[1].GetPuyoType());
+        Debug.Assert(!is_set1);
+
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -101,6 +143,12 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Z))
         {
             Rotate(false);
+        }
+
+        // クイックドロップ
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            QuickDrop();
         }
     }
 }
