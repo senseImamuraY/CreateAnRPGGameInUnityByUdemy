@@ -96,7 +96,9 @@ public class PlayerController : MonoBehaviour
 
         if (!CanMove(pos, rot)) return false;
 
+        _position = pos;
         _rotate = rot;
+
 
         _puyoControllers[0].SetPos(new Vector3((float)_position.x, (float)_position.y, 0.0f));
         Vector2Int posChild = CalcChildPuyoPos(_position, _rotate);
