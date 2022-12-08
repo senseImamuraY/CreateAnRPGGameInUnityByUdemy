@@ -189,6 +189,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // rateが 1 -> 0 で、pos_last -> pos, rot_last->rotに遷移。rot が RotState.Invalid なら回転を考慮しない（軸ぷよ用）
+    // pos pos_last（回転も）は同じにはならない
     static Vector3 Interpolate(Vector2Int pos, RotState rot, Vector2Int pos_last, RotState rot_last, float rate)
     {
         // 平行移動
@@ -198,17 +199,27 @@ public class PlayerController : MonoBehaviour
 
         if (rot == RotState.Invalid) return p;
 
+
+        // rotには0~3の数値が入る
         // 回転
         float theta0 = 0.5f * Mathf.PI * (float)(int)rot;
         float theta1 = 0.5f * Mathf.PI * (float)(int)rot_last;
         float theta = theta1 - theta0;
 
         // 近い方向に回る
+        // この処理によって全パターン±1/2になる
         if (+Mathf.PI < theta) theta = theta - 2.0f * Mathf.PI;
         if (theta < -Mathf.PI) theta = theta + 2.0f * Mathf.PI;
 
         theta = theta0 + rate * theta;
 
+        // sinとcosを反転させると、逆回転になる
+        // この時、移動・回転をしないならば、値が変動しないため、一定の値をとる
+
+        //Debug.Log(p + new Vector3(Mathf.Sin(theta), Mathf.Cos(theta), 0.0f));
         return p + new Vector3(Mathf.Sin(theta), Mathf.Cos(theta), 0.0f);
+        //return p + new Vector3(Mathf.Cos(theta), Mathf.Sin(theta), 0.0f);
+        //return p + new Vector3(theta, theta, 0.0f);
+        //return p;
     }
 }
