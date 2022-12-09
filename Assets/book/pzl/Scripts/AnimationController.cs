@@ -33,6 +33,7 @@ public class AnimationController
 
         return true;
     }
+    // ‚±‚ê‚Í‚P‚ð•Ô‚·
 
     public float GetNormalized()
     {

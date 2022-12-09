@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     const float TRANS_TIME = 0.05f; // ˆÚ“®‘¬“x‘JˆÚŠÔ
+    //const float ROT_TIME = 5f; // ‰ñ“]‘JˆÚŠÔ
     const float ROT_TIME = 0.05f; // ‰ñ“]‘JˆÚŠÔ
 
     enum RotState
@@ -216,7 +217,7 @@ public class PlayerController : MonoBehaviour
         // sin‚Æcos‚ğ”½“]‚³‚¹‚é‚ÆA‹t‰ñ“]‚É‚È‚é
         // ‚±‚ÌAˆÚ“®E‰ñ“]‚ğ‚µ‚È‚¢‚È‚ç‚ÎA’l‚ª•Ï“®‚µ‚È‚¢‚½‚ßAˆê’è‚Ì’l‚ğ‚Æ‚é
 
-        //Debug.Log(p + new Vector3(Mathf.Sin(theta), Mathf.Cos(theta), 0.0f));
+        Debug.Log(p + new Vector3(Mathf.Sin(theta), Mathf.Cos(theta), 0.0f));
         return p + new Vector3(Mathf.Sin(theta), Mathf.Cos(theta), 0.0f);
         //return p + new Vector3(Mathf.Cos(theta), Mathf.Sin(theta), 0.0f);
         //return p + new Vector3(theta, theta, 0.0f);
