@@ -194,15 +194,22 @@ public class PlayerController : MonoBehaviour
     static Vector3 Interpolate(Vector2Int pos, RotState rot, Vector2Int pos_last, RotState rot_last, float rate)
     {
         // 平行移動
+        // 今回は大＝＞小になるので、このような順番にする
         Vector3 p = Vector3.Lerp(
             new Vector3((float)pos.x, (float)pos.y, 0.0f),
             new Vector3((float)pos_last.x, (float)pos_last.y, 0.0f), rate);
+        //Debug.Log("p ="+ p + ", rate =" + rate);
+       
+        //Vector3 p = Vector3.Lerp(
+        //        new Vector3((float)pos_last.x, (float)pos_last.y, 0.0f),
+        //        new Vector3((float)pos.x, (float)pos.y, 0.0f), rate);
 
         if (rot == RotState.Invalid) return p;
 
 
         // rotには0~3の数値が入る
         // 回転
+        //Debug.Log("rot = " + (int)rot + " rot_last = " + rot_last);
         float theta0 = 0.5f * Mathf.PI * (float)(int)rot;
         float theta1 = 0.5f * Mathf.PI * (float)(int)rot_last;
         float theta = theta1 - theta0;
@@ -215,9 +222,9 @@ public class PlayerController : MonoBehaviour
         theta = theta0 + rate * theta;
 
         // sinとcosを反転させると、逆回転になる
-        // この時、移動・回転をしないならば、値が変動しないため、一定の値をとる
+        // この時、移動・回転をしないならば、値が変動しない(rateが0)ため、一定の値をとる
 
-        Debug.Log(p + new Vector3(Mathf.Sin(theta), Mathf.Cos(theta), 0.0f));
+        //Debug.Log(p + new Vector3(Mathf.Sin(theta), Mathf.Cos(theta), 0.0f));
         return p + new Vector3(Mathf.Sin(theta), Mathf.Cos(theta), 0.0f);
         //return p + new Vector3(Mathf.Cos(theta), Mathf.Sin(theta), 0.0f);
         //return p + new Vector3(theta, theta, 0.0f);

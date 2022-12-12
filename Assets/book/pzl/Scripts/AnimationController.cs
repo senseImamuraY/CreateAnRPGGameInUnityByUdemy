@@ -37,6 +37,7 @@ public class AnimationController
 
     public float GetNormalized()
     {
+        //Debug.Log(_time * _inv_time_max);
         return _time * _inv_time_max;
     }
 }
