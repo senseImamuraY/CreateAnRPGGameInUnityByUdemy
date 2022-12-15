@@ -59,9 +59,11 @@ public class LogicalInput
     public void Update(Key inputDev)
     {
         // 入力が入った/抜けた
+        // 排他的論理和。左辺値と右辺値が異なる時はtrue、両方とも同じ値の時はfalseを返す
+
         inputTrg = (inputDev ^ inputRaw) & inputDev;
         inputRel = (inputDev ^ inputRaw) & inputRaw;
-
+        Debug.Log("inputRaw = " + inputRaw + "inputDev ="+ inputDev + " inputTrig = " + inputTrg + " inputRel = " + inputRel);
         // 生データの生成
         inputRaw = inputDev;
 
