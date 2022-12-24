@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PuyoController[] _puyoControllers = new PuyoController[2] { default!, default! };
     [SerializeField] BoardController boardController = default!;
 
-
+    LogicalInput _logicalInput = null;
 
     Vector2Int _position;// 軸ぷよの位置
     RotState _rotate = RotState.Up;// 角度は 0:上 1:右 2:下 3:左 でもつ(子ぷよの位置)
@@ -46,16 +46,52 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // ひとまず決め打ちで色を決定
-        _puyoControllers[0].SetPuyoType(PuyoType.Green);
-        _puyoControllers[1].SetPuyoType(PuyoType.Red);
+        //// ひとまず決め打ちで色を決定
+        //_puyoControllers[0].SetPuyoType(PuyoType.Green);
+        //_puyoControllers[1].SetPuyoType(PuyoType.Red);
 
-        _position = new Vector2Int(2, 12);
-        _rotate = RotState.Up;
+        //_position = new Vector2Int(2, 12);
+        //_rotate = RotState.Up;
+
+        //_puyoControllers[0].SetPos(new Vector3((float)_position.x, (float)_position.y, 0.0f));
+        //Vector2Int posChild = CalcChildPuyoPos(_position, _rotate);
+        //_puyoControllers[1].SetPos(new Vector3((float)posChild.x, (float)posChild.y, 0.0f));        
+        gameObject.SetActive(false);// ぷよの種類が設定されるまで眠る
+        
+    }
+
+
+    public void SetLogicalInput(LogicalInput reference)
+    {
+        _logicalInput = reference;
+    }
+
+    // 新しくぷよをだす
+    public bool Spawn(PuyoType axis, PuyoType child)
+    {
+        // 初期位置に出せるか確認
+        Vector2Int position = new(2, 12);// 初期位置
+        RotState rotate = RotState.Up;// 最初は上向き
+        if (!CanMove(position, rotate)) return false;
+
+        // パラメータの初期化
+        _position = _last_position = position;
+        _rotate = _last_rotate = rotate;
+        _animationController.Set(1);
+        _fallCount = 0;
+        _groundFrame = GROUND_FRAMES;
+
+        // ぷよをだす
+        _puyoControllers[0].SetPuyoType(axis);
+        _puyoControllers[1].SetPuyoType(child);
 
         _puyoControllers[0].SetPos(new Vector3((float)_position.x, (float)_position.y, 0.0f));
         Vector2Int posChild = CalcChildPuyoPos(_position, _rotate);
         _puyoControllers[1].SetPos(new Vector3((float)posChild.x, (float)posChild.y, 0.0f));
+
+        gameObject.SetActive(true);
+
+        return true;
     }
 
     static readonly Vector2Int[] rotate_tbl = new Vector2Int[] {
