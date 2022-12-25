@@ -201,30 +201,6 @@ public class PlayerController : MonoBehaviour
         Settle();
     }
 
-    //void QuickDrop()
-    //{
-    //    // 落ちれる一番下まで落ちる
-    //    Vector2Int pos = _position;
-    //    do
-    //    {
-    //        pos += Vector2Int.down;
-    //    } while (CanMove(pos, _rotate));
-    //    pos -= Vector2Int.down;// 一つ上の場所（最後に置けた場所）に戻す
-
-    //    _position = pos;
-
-    //    // 直接接地
-    //    bool is_set0 = boardController.Settle(_position,
-    //        (int)_puyoControllers[0].GetPuyoType());
-    //    Debug.Assert(is_set0);// 置いたのは空いていた場所のはず
-
-    //    bool is_set1 = boardController.Settle(CalcChildPuyoPos(_position, _rotate),
-    //        (int)_puyoControllers[1].GetPuyoType());
-    //    Debug.Assert(is_set1);// 置いたのは空いていた場所のはず
-
-    //    gameObject.SetActive(false);
-    //}
-
      static readonly KeyCode[] key_code_tbl = new KeyCode[(int)LogicalInput.Key.MAX]{ 
         KeyCode.RightArrow, // Right
         KeyCode.LeftArrow,  // Left
